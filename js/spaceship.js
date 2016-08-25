@@ -6,6 +6,8 @@ function Spaceship(ctx, keyboard, img) {
 	this.x = 0;
 	this.y = 0;
 	this.speed = 250;
+	this.lifes = 3;
+	this.die = null;
 
 	this.spritesheet = new Spritesheet(this.ctx, this.img, 3, 2);
 	this.spritesheet.interval = 75;
@@ -70,9 +72,17 @@ Spaceship.prototype = {
 			this.loop.addSprite(explosion1);
 			this.loop.addSprite(explosion2);
 
+			var $this = this;
 			explosion1.end = function() {
-				this.loop.stop();
-				alert('game over');
+				$this.lifes--;
+
+				if ( $this.lifes < 0 ) {
+					if ( $this.die ) $this.die();
+				} else {
+					$this.restartPosition();
+					$this.loop.addSprite($this);
+					$this.collision.addSprite($this);
+				}
 			}
 		}
 	}

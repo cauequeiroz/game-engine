@@ -62,10 +62,12 @@ function game_init() {
 	bg2		  = new Background(ctx, images.stars);
 	bg3		  = new Background(ctx, images.cloud);
 	spaceship = new Spaceship(ctx, keyboard, images.spaceship);
+	hud		  = new HUD(ctx, spaceship);
 
 	loop.addSprite(bg1);
 	loop.addSprite(bg2);
 	loop.addSprite(bg3);
+	loop.addSprite(hud);
 	loop.addSprite(spaceship);
 
 	loop.addProcess(collision);
@@ -81,18 +83,21 @@ function game_config() {
 	bg3.speed = 500;
 
 	spaceship.restartPosition();
+	spaceship.die = function() {
+		gameOver();
+	}
 	keyboard.tap(K_SPACE, function() {
 		spaceship.shot();
 	});
 
+	collision.anyCollision = function(s1, s2) {
+		if ( (s1 instanceof Ovni && s2 instanceof Bullet) ||
+		     (s1 instanceof Bullet && s2 instanceof Ovni) ) {
+			hud.score += 20;
+		}
+	}
+
 	game_start();
-}
-
-// start game
-function game_start() {
-	loop.start();
-
-	createEnemy();
 }
 
 // generate one ovni per second
@@ -118,4 +123,16 @@ function newOvni() {
 
 	loop.addSprite(ovni);
 	collision.addSprite(ovni);
+}
+
+// start game
+function game_start() {
+	loop.start();
+	createEnemy();
+}
+
+// game over
+function gameOver() {
+	loop.stop();
+	alert('game over');
 }

@@ -11,10 +11,11 @@ function Background(ctx, img) {
 }
 Background.prototype = {
 	update: function() {
+		this.divisor += this.speed * this.loop.perSecond;
+
 		if ( this.divisor > this.img.height ) {
 			this.divisor = 0;
-		}
-		this.divisor += this.speed * this.loop.perSecond;
+		}		
 	},
 	draw: function() {
 		this.y = this.divisor - this.height;
