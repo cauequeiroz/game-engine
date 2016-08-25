@@ -55,6 +55,9 @@ function game_init() {
 	loop.addSprite(bg3);
 	loop.addSprite(spaceship);
 
+	loop.addProcess(collision);
+	collision.addSprite(spaceship);
+
 	game_config();
 }
 
@@ -98,7 +101,8 @@ function newOvni() {
 	var ovni = new Ovni(this.ctx, images.ovni);
 		ovni.x = Math.floor(Math.random() * ( this.ctx.canvas.width - images.ovni.width + 1 ));
 		ovni.y = -images.ovni.height;
-		ovni.speed = Math.floor(200 + Math.random() * (650 - 200 + 1));
+		ovni.speed = Math.floor(150 + Math.random() * (600 - 150 + 1));
 
 	loop.addSprite(ovni);
+	collision.addSprite(ovni);
 }

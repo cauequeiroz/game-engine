@@ -1,10 +1,15 @@
 function Collision() {
 	this.sprites = [];
+	this.removeSprites = [];
 	this.anyCollision = null;
 }
 Collision.prototype = {
 	addSprite: function(sprite) {
 		this.sprites.push(sprite);
+		sprite.collision = this;
+	},
+	removeSprite: function(sprite) {
+		this.removeSprites.push(sprite);
 	},
 	process: function() {
 		var testList = new Object();
@@ -27,11 +32,14 @@ Collision.prototype = {
 				}				
 			}
 		}
+
+		this.processExclusions();
 	},
 	testCollision: function(sprite1, sprite2) {
 		var rects1 = sprite1.getRects(),
 			rects2 = sprite2.getRects();
 
+		collisions:
 		for ( var i in rects1 ) {
 			for ( var j in rects2 ) {
 				if ( this.hasCollided(rects1[i], rects2[j]) ) {
@@ -39,6 +47,7 @@ Collision.prototype = {
 					sprite2.collidedWith(sprite1);
 
 					if ( this.anyCollision ) this.anyCollision(sprite1, sprite2);
+					break collisions;
 				}
 			}
 		}
@@ -61,5 +70,17 @@ Collision.prototype = {
 		}
 
 		return str;
+	},
+	processExclusions: function() {
+		var newSprites = [];
+
+		for ( var i in this.sprites ) {
+			if ( this.removeSprites.indexOf(this.sprites[i]) === -1 ) {
+				newSprites.push(this.sprites[i]);
+			}
+		}
+
+		this.removeSprites = [];
+		this.sprites = newSprites;
 	}
 }

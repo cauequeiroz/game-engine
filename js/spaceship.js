@@ -5,7 +5,7 @@ function Spaceship(ctx, keyboard, img) {
 
 	this.x = 0;
 	this.y = 0;
-	this.speed = 200;
+	this.speed = 250;
 
 	this.spritesheet = new Spritesheet(this.ctx, this.img, 3, 2);
 	this.spritesheet.interval = 75;
@@ -34,9 +34,33 @@ Spaceship.prototype = {
 	shot: function() {
 		var bullet = new Bullet(this.ctx, this);
 		this.loop.addSprite(bullet);
+		this.collision.addSprite(bullet);
 	},
 	restartPosition: function() {
 		this.x = this.ctx.canvas.width/2 - 18;
 		this.y = this.ctx.canvas.height - 60;
+	},
+	getRects: function() {
+		var rects = [
+			{x:this.x+2, y:this.y+19, w:9, h:13},
+			{x:this.x+13, y:this.y+3, w:10, h:33},
+			{x:this.x+25, y:this.y+19, w:9, h:13}
+		];
+
+		// var ctx = this.ctx;
+		// for ( var i in rects ) {
+		// 	ctx.save();
+		// 	ctx.strokeStyle = 'yellow';
+		// 	ctx.strokeRect(rects[i].x, rects[i].y, rects[i].w, rects[i].h);
+		// 	ctx.restore();
+		// }
+
+		return rects;
+	},
+	collidedWith: function(other) {
+		if ( other instanceof Ovni ) {
+			loop.stop();
+			alert('Game over');
+		}
 	}
 }
