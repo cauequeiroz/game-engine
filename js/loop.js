@@ -4,6 +4,8 @@ function Loop(ctx) {
 	this.sprites = [];
 	this.processList = [];
 	this.canPlay = false;
+	this.lastCicle = 0;
+	this.perSecond = 0;
 }
 Loop.prototype = {
 	addSprite: function(sprite) {
@@ -20,13 +22,13 @@ Loop.prototype = {
 	stop: function() {
 		this.canPlay = false;
 	},
-	clearCanvas: function() {
-		this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-	},
 	nextFrame: function() {
 		if ( !this.canPlay ) return;
 
-		this.clearCanvas();
+		var now = new Date().getTime();
+		if ( this.lastCicle === 0 ) this.lastCicle = now;
+		var timeDifference = now - this.lastCicle;
+		this.perSecond = timeDifference / 1000;
 
 		for ( var i in this.sprites )
 			this.sprites[i].update();
@@ -34,6 +36,8 @@ Loop.prototype = {
 			this.sprites[i].draw();
 		for ( var i in this.processList )
 			this.processList[i].process();
+
+		this.lastCicle = now;
 
 		var $this = this;
 		requestAnimationFrame(function() {
