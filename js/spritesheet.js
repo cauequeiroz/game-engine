@@ -8,7 +8,7 @@ function Spritesheet(ctx, img, row, col) {
 	this.col = 0;
 	this.width = this.img.width / this.n_col;
 	this.height = this.img.height / this.n_row;
-	this.interval = 41;
+	this.interval = 0;
 }
 Spritesheet.prototype = {
 	animate: function() {
