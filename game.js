@@ -12,8 +12,20 @@ var loop,
 	bg3,
 	spaceship,
 	generatorOvni,
+	bg_music,
 	total = 0,
 	loaded = 0;
+
+// load bg music
+loadMusic();
+function loadMusic() {
+	bg_music = new Audio();
+	bg_music.src = 'snd/bg.mp3';
+	bg_music.volume = 0.8;
+	bg_music.load();
+	bg_music.loop = true;
+	bg_music.play();
+}
 
 // load images
 loadImages();

@@ -1,3 +1,8 @@
+var bullet_sound = new Audio();
+	bullet_sound.src = 'snd/bullet.mp3';
+	bullet_sound.volume = 0.2;
+	bullet_sound.load();
+
 function Bullet(ctx, spaceship) {
 	this.ctx = ctx;
 	this.spaceship = spaceship;
@@ -8,6 +13,9 @@ function Bullet(ctx, spaceship) {
 	this.y = spaceship.y - this.height;
 	this.color = '#f1c40f';
 	this.speed = 400;
+
+	bullet_sound.currentTime = 0.0;
+	bullet_sound.play();
 }
 Bullet.prototype = {
 	update: function() {

@@ -1,3 +1,8 @@
+var explosion_sound = new Audio();
+	explosion_sound.src = 'snd/explosion.mp3';
+	explosion_sound.volume = 0.4;
+	explosion_sound.load();
+
 function Explosion(ctx, ovni) {
 	this.ctx = ctx;
 	this.ovni = ovni;
@@ -13,6 +18,9 @@ function Explosion(ctx, ovni) {
 		$this.loop.removeSprite($this);
 		if ($this.end) $this.end();
 	}
+
+	explosion_sound.currentTime = 0.0;
+	explosion_sound.play();
 }
 Explosion.prototype = {
 	update: function() {
