@@ -8,7 +8,7 @@ function Loop(ctx) {
 Loop.prototype = {
 	addSprite: function(sprite) {
 		this.sprites.push(sprite);
-		sprite.engine = this;
+		sprite.loop = this;
 	},
 	addProcess: function(process) {
 		this.processList.push(process);
