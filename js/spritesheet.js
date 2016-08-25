@@ -9,6 +9,7 @@ function Spritesheet(ctx, img, row, col) {
 	this.width = this.img.width / this.n_col;
 	this.height = this.img.height / this.n_row;
 	this.interval = 0;
+	this.end = null;
 }
 Spritesheet.prototype = {
 	animate: function() {
@@ -21,6 +22,7 @@ Spritesheet.prototype = {
 			this.col++;
 		} else {
 			this.col = 0;
+			if ( this.end ) this.end();
 		}
 
 		this.last_time = now;

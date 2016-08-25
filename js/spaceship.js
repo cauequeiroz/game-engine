@@ -59,8 +59,21 @@ Spaceship.prototype = {
 	},
 	collidedWith: function(other) {
 		if ( other instanceof Ovni ) {
-			loop.stop();
-			alert('Game over');
+			this.loop.removeSprite(this);
+			this.collision.removeSprite(this);
+			this.loop.removeSprite(other);
+			this.collision.removeSprite(other);
+
+			var explosion1 = new Explosion(this.ctx, this),
+				explosion2 = new Explosion(this.ctx, other);
+
+			this.loop.addSprite(explosion1);
+			this.loop.addSprite(explosion2);
+
+			explosion1.end = function() {
+				this.loop.stop();
+				alert('game over');
+			}
 		}
 	}
 }

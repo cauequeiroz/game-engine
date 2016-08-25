@@ -43,6 +43,9 @@ Ovni.prototype = {
 			this.collision.removeSprite(this);
 			this.loop.removeSprite(other);
 			this.collision.removeSprite(other);
+
+			var explosion = new Explosion(this.ctx, this);
+			this.loop.addSprite(explosion);
 		}
 	}
 }

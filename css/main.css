@@ -1,12 +1,5 @@
 /*
   ----------------------------------------
-  Custom font
-  ----------------------------------------
-*/
-@import 'https://fonts.googleapis.com/css?family=Roboto:300,400,700';
-
-/*
-  ----------------------------------------
   Reset
   ----------------------------------------
 */
@@ -59,7 +52,8 @@ a {
 	color: inherit;
 }
 a:hover {
-	text-decoration: underline;
+	border-bottom: 1px solid;
+	padding-bottom: 2px;
 }
 
 canvas {

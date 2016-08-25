@@ -23,7 +23,8 @@ function loadImages() {
 		stars: 'bg-stars.png',
 		cloud: 'bg-cloud.png',
 		spaceship: 'spaceship.png',
-		ovni: 'ovni.png'
+		ovni: 'ovni.png',
+		explosion: 'explosion.png'
 	}
 
 	for ( var i in images ) {
