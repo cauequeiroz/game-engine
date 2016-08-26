@@ -24,7 +24,6 @@ function loadMusic() {
 	bg_music.volume = 0.8;
 	bg_music.load();
 	bg_music.loop = true;
-	bg_music.play();
 }
 
 // load images
@@ -50,7 +49,32 @@ function loadImages() {
 }
 function loading() {
 	loaded++;
-	if ( total === loaded ) game_init();
+
+	ctx.save();
+	ctx.fillStyle = '#7f8c8d';
+	ctx.font = '20px monospace';
+	ctx.fillText('LOADING...', 50, 410);
+
+	var widthTotal = 400,	
+		widthCurrent = loaded / total * widthTotal;
+	ctx.fillRect(50, 420, widthCurrent, 4);
+
+	if ( total === loaded ) {
+		startButton('show');
+		game_init();
+	}
+}
+
+// control start button
+function startButton(command) {
+	var button = document.querySelector('#btnStart');
+	if ( command === 'show' ) {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		button.style.display = 'block';
+	}
+	else if ( command === 'hide' ) {
+		button.style.display = 'none';
+	}
 }
 
 // initialize objects
@@ -87,7 +111,6 @@ function game_config() {
 		game_over();
 	}
 
-
 	keyboard.tap(K_ENTER, game_pause);
 
 	collision.anyCollision = function(s1, s2) {
@@ -98,7 +121,6 @@ function game_config() {
 	}
 
 	createEnemy();
-	game_start();
 }
 
 // can spaceship shot?
@@ -139,7 +161,11 @@ function newOvni() {
 
 // start game
 function game_start() {
+	generatorOvni.lastTime = new Date().getTime();
+	startButton('hide');
 	loop.start();
+	bg_music.play();
+	canShot(true);
 }
 
 // pause game
