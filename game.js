@@ -108,10 +108,10 @@ function game_config() {
 
 	spaceship.restartPosition();
 	spaceship.die = function() {
+		removeAllEnemy();
 		game_over();
+		loop.stop();
 	}
-
-	keyboard.tap(K_ENTER, game_pause);
 
 	collision.anyCollision = function(s1, s2) {
 		if ( (s1 instanceof Ovni && s2 instanceof Bullet) ||
@@ -166,6 +166,7 @@ function game_start() {
 	loop.start();
 	bg_music.play();
 	canShot(true);
+	keyboard.tap(K_ENTER, game_pause);
 }
 
 // pause game
@@ -194,6 +195,32 @@ function game_pause() {
 
 // game over
 function game_over() {
-	loop.stop();
-	alert('game over');
+	bg_music.pause();
+	bg_music.currentTime = 0.0;
+	hud.score = 0;
+	spaceship.lifes = 3;
+	canShot(false);
+	keyboard.tap(K_ENTER, null);
+
+	setTimeout(function() {
+		startButton('show');
+
+		ctx.save();
+		ctx.fillStyle = '#7f8c8d';
+		ctx.font = '20px monospace';
+		ctx.fillText('Game over :(', 180, 185);
+		ctx.restore();
+
+		spaceship.restartPosition();
+		loop.addSprite(spaceship);
+		collision.addSprite(spaceship);
+	}, 1000);	
+}
+function removeAllEnemy() {
+	for ( var i in loop.sprites ) {
+		if ( loop.sprites[i] instanceof Ovni ) {
+			loop.removeSprite(loop.sprites[i]);
+			collision.removeSprite(loop.sprites[i]);
+		}
+	}
 }
