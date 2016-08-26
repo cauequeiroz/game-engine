@@ -4,4 +4,4 @@ A simple but complete, game engine build with HTML5 and Javascript. There are cl
 
 You can see a demo [here](http://cauequeiroz.com.br/game-engine).
 
-![screenshot](screenshot.png);
+![screenshot](screenshot.png)
