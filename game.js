@@ -84,11 +84,11 @@ function game_config() {
 
 	spaceship.restartPosition();
 	spaceship.die = function() {
-		gameOver();
+		game_over();
 	}
-	keyboard.tap(K_SPACE, function() {
-		spaceship.shot();
-	});
+
+
+	keyboard.tap(K_ENTER, game_pause);
 
 	collision.anyCollision = function(s1, s2) {
 		if ( (s1 instanceof Ovni && s2 instanceof Bullet) ||
@@ -97,18 +97,30 @@ function game_config() {
 		}
 	}
 
+	createEnemy();
 	game_start();
+}
+
+// can spaceship shot?
+function canShot(can) {
+	if ( can ) {
+		keyboard.tap(K_SPACE, function() {
+			spaceship.shot();
+		});
+	} else {
+		keyboard.tap(K_SPACE, null);
+	}
 }
 
 // generate one ovni per second
 function createEnemy() {
 	generatorOvni = {
-		last_time: new Date().getTime(),
+		lastTime: new Date().getTime(),
 		process: function() {
 			var now = new Date().getTime();
-			if ( now - this.last_time > 1000 ) {
+			if ( now - this.lastTime > 1000 ) {
 				newOvni();
-				this.last_time = now;	
+				this.lastTime = now;	
 			}			
 		}
 	}
@@ -128,11 +140,34 @@ function newOvni() {
 // start game
 function game_start() {
 	loop.start();
-	createEnemy();
+}
+
+// pause game
+function game_pause() {
+	if ( loop.canPlay ) {
+		canShot(false);
+		bg_music.pause();
+		loop.stop();
+
+		// draw pause screen
+		ctx.globalAlpha = 0.4;
+		ctx.fillStyle = 'black';
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.globalAlpha = 1;
+		ctx.fillStyle = 'white';
+		ctx.font = '50px monospace';
+		ctx.fillText('PAUSE', 180, 125);
+	} else {
+		canShot(true);
+		bg_music.play();
+		loop.lastCicle = 0;
+		generatorOvni.lastTime = new Date().getTime();
+		loop.start();
+	}
 }
 
 // game over
-function gameOver() {
+function game_over() {
 	loop.stop();
 	alert('game over');
 }
