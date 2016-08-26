@@ -123,11 +123,11 @@ function game_config() {
 	createEnemy();
 }
 
-// can spaceship shot?
-function canShot(can) {
+// can spaceship shoot?
+function canShoot(can) {
 	if ( can ) {
 		keyboard.tap(K_SPACE, function() {
-			spaceship.shot();
+			spaceship.shoot();
 		});
 	} else {
 		keyboard.tap(K_SPACE, null);
@@ -165,14 +165,14 @@ function game_start() {
 	startButton('hide');
 	loop.start();
 	bg_music.play();
-	canShot(true);
+	canShoot(true);
 	keyboard.tap(K_ENTER, game_pause);
 }
 
 // pause game
 function game_pause() {
 	if ( loop.canPlay ) {
-		canShot(false);
+		canShoot(false);
 		bg_music.pause();
 		loop.stop();
 
@@ -185,7 +185,7 @@ function game_pause() {
 		ctx.font = '50px monospace';
 		ctx.fillText('PAUSE', 180, 125);
 	} else {
-		canShot(true);
+		canShoot(true);
 		bg_music.play();
 		loop.lastCicle = 0;
 		generatorOvni.lastTime = new Date().getTime();
@@ -199,7 +199,7 @@ function game_over() {
 	bg_music.currentTime = 0.0;
 	hud.score = 0;
 	spaceship.lifes = 3;
-	canShot(false);
+	canShoot(false);
 	keyboard.tap(K_ENTER, null);
 
 	setTimeout(function() {

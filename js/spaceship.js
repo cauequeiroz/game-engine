@@ -33,7 +33,7 @@ Spaceship.prototype = {
 		this.spritesheet.draw(this.x, this.y);
 		this.spritesheet.animate();
 	},
-	shot: function() {
+	shoot: function() {
 		var bullet = new Bullet(this.ctx, this);
 		this.loop.addSprite(bullet);
 		this.collision.addSprite(bullet);
